@@ -3145,14 +3145,15 @@ class Axes3D(Axes):
                                      "edgecolors", "c", "facecolor",
                                      "facecolors", "color"])
     def scatter(self, xs, ys, zs=0, zdir='z', s=20, c=None, depthshade=None,
-                *args,
-                depthshade_minalpha=None,
-                axlim_clip=False,
-                **kwargs):
+                *args, depthshade_minalpha=None, axlim_clip=False, **kwargs):
+        
+        # 1. Force everything to numpy arrays first
+        xs, ys, zs = np.atleast_1d(xs, ys, zs)
+        
+        # 2. THEN convert the units
         xs = self.convert_xunits(xs)
         ys = self.convert_yunits(ys)
         zs = self.convert_zunits(zs)
-        xs, ys, zs = np.atleast_1d(xs, ys, zs)
 
         had_data = self.has_data()
         zs_orig = zs
